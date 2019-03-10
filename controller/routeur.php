@@ -1,5 +1,9 @@
 <?php
-require_once(File::build_path(array('lib', 'Security.php')));
+
+
+require_once(File::build_path(array('controller', 'ControllerClients.php')));
+require_once(File::build_path(array('controller', 'ControllerArtistes.php')));
+require_once(File::build_path(array('controller', 'ControllerAlbums.php')));
 
 if(isset($_GET['action']))
 {
