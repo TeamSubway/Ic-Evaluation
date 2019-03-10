@@ -9,37 +9,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" defer></script>
 </head>
-<body>
-<nav class="navbar navbar-inverse">
-    <div class="navbar-header">
-        <a class="navbar-brand" href="#">IC Evaluation</a>
-    </div>
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
+<body style="padding-top: 5rem;">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">IC Evaluation</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="">Home</span></a>
+            </li>
+        </ul>
+        <ul class="navbar-nav my-2 my-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="./index.php?controller=clients&action=connect">Connexion</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./index.php?controller=clients&action=create">Inscription</span></a>
+            </li>
         </ul>
     </div>
 </nav>
-<div class="container-fluid" style="margin-top: 15px">
-    <main class="col-md-8">
-        <?php
-        if(isset($view)){
-            require File::build_path(array("view", static::$object, "$view.php"));
-        }else{
-            ?>
-            <div class="jumbotron">
-                <h1>Erreur 404<small> La page que vous demandez n'existe pas</small></h1>
-            </div>
-            <?php
-        }
+<main role="main" class="container">
+    <?php
+    if(isset($view)){
+        require File::build_path(array("view", static::$object, "$view.php"));
+    }else{
         ?>
-    </main>
-</div>
-
-<footer class="footer">
-    <div class="container-fluid">
-        <span class="text-muted">  IC-Evaluation - Maxime BARRY, Floran NICOLETTI, Mathias UGHETTO</span>
-    </div>
-</footer>
+        <div class="jumbotron">
+            <h1>Erreur 404<small> La page que vous demandez n'existe pas</small></h1>
+        </div>
+        <?php
+    }
+    ?>
+</main>
 </body>
 <!--
 Yes it's a cat !

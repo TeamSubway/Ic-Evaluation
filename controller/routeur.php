@@ -15,7 +15,8 @@ if(isset($_GET['controller']))
 {
     $controller = htmlspecialchars($_GET['controller']);
 }else{
-    $controller = '';
+    $controller = 'clients';
+    $action = 'connect';
 }
 $controller_class = 'Controller' . ucfirst($controller);
 
