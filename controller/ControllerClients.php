@@ -65,6 +65,7 @@ class ControllerClients {
                 require_once File::build_path(array("view","view.php"));
             }
         } else {
+            $login = '';
             $error = "Aucune donnée entrée !";
             $view = 'connect';
             $pagetitle = 'Erreur de connexion';
@@ -153,8 +154,16 @@ class ControllerClients {
                 require_once File::build_path(array("view","view.php"));
             }
         } else {
-            $login = $_POST['login'];
-            $mail = $_POST['mail'];
+            if(isset($_POST['login']))
+                $login = $_POST['login'];
+            else
+                $login = '';
+
+            if(isset($_POST['mail']))
+                $mail = $_POST['mail'];
+            else
+                $mail = '';
+
             $pwd = '';
 
             $action = 'created';
