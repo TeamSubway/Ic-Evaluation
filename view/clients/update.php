@@ -9,6 +9,11 @@ if(isset($error) && !empty($error)){
     <div class="alert alert-danger" role="alert">
         <?=$error?>
     </div>
+<?php }
+if(isset($success) && !empty($success)){?>
+    <div class="alert alert-success" role="alert">
+        <?=$success?>
+    </div>
 <?php } ?>
 
 <form class="form-signin text-center" method="post" action="./index.php?controller=clients&action=<?=$action?>">

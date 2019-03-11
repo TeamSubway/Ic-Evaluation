@@ -4,14 +4,18 @@ if(!isset($login))
     $login = '';
 if(!isset($pwd))
     $pwd = '';
-
 if(isset($error) && !empty($error)){
 ?>
 <div class="alert alert-danger" role="alert">
     <?=$error?>
 </div>
-<?php } ?>
+<?php }
 
+if(isset($success) && !empty($success)){?>
+<div class="alert alert-success" role="alert">
+    <?=$success?>
+</div>
+<?php } ?>
 <form class="form-signin text-center" method="post" action="./index.php?controller=clients&action=connected">
     <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
     <label for="login" class="sr-only">Login</label>
