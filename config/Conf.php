@@ -8,6 +8,8 @@ class Conf {
         'password' => 'P@ssW0rd'
     );
 
+    static private $link = "ic-eval.local";
+
     static public function getLogin() {
         return self::$databases['login'];
     }
@@ -22,6 +24,10 @@ class Conf {
 
     static public function getPassword() {
         return self::$databases['password'];
+    }
+
+    static public function getLink() {
+        return self::$link;
     }
 
     static private $debug = true;

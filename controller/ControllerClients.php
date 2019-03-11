@@ -112,7 +112,7 @@ class ControllerClients {
                     ModelClients::save($data);
                     $message = "Bonjour et bienvenu(e) sur notre site ".$data['login'].
                         ", veuillez activez votre compte à l'adresse ci-jointe :
-                        http://ic-eval.local/index.php?controller=clients&action=validate&login=" . $data['login']."&tknIns=".$data['tknIns'];
+                        http:/" . Conf::getLink() . "/index.php?controller=clients&action=validate&login=" . $data['login']."&tknIns=".$data['tknIns'];
                     mail($data['mail'], 'Confirmation d\'inscription', $message);
                     $view = 'connect';
                     $pagetitle = 'Connexion';
