@@ -6,14 +6,14 @@ class ModelClients extends Model{
     protected static $object = 'clients';
     protected static $primary='cli_login';
 
-    private $id;
-    private $login;
-    private $email;
-    private $dateInscription;
-    private $dateConnexion;
-    private $password;
-    private $tokenInscription;
-    private $tokenPassword;
+    private $cli_id;
+    private $cli_login;
+    private $cli_email;
+    private $cli_ins;
+    private $cli_cx;
+    private $cli_pwd;
+    private $cli_tknIns;
+    private $cli_tknPwd;
 
     public function get($attribut) {
         return $this->$attribut;
@@ -23,16 +23,16 @@ class ModelClients extends Model{
         $this->$attribut = $value;
     }
 
-    public function __construct($id = NULL, $login = NULL, $email = NULL, $dateInscription = NULL, $dateConnexion = NULL, $password = NULL, $tokenInscription = NULL, $tokenPassword = NULL) {
-        if (!is_null($id) && !is_null($login) && !is_null($email) && !is_null($dateInscription) && !is_null($dateConnexion) && !is_null($password)) {
-            $this->id = $id;
-            $this->login = $login;
-            $this->email = $email;
-            $this->dateInscription = $dateInscription;
-            $this->dateConnexion = $dateConnexion;
-            $this->password = $password;
-            $this->tokenInscription = $tokenInscription;
-            $this->tokenPassword = $tokenPassword;
+    public function __construct($cli_id = NULL, $cli_login = NULL, $cli_email = NULL, $cli_ins = NULL, $cli_cx = NULL, $cli_pwd = NULL, $cli_tknIns = NULL, $cli_tknPwd = NULL) {
+        if (!is_null($cli_id) && !is_null($cli_login) && !is_null($cli_email) && !is_null($cli_ins) && !is_null($cli_cx) && !is_null($cli_pwd)) {
+            $this->cli_id = $cli_id;
+            $this->cli_login = $cli_login;
+            $this->cli_email = $cli_email;
+            $this->cli_ins = $cli_ins;
+            $this->cli_cx = $cli_cx;
+            $this->cli_pwd = $cli_pwd;
+            $this->cli_tknIns = $cli_tknIns;
+            $this->cli_tknPwd = $cli_tknPwd;
         }
     }
 

@@ -62,6 +62,7 @@ class Model{
             $req_prep->setFetchMode(PDO::FETCH_CLASS, $class_name);
             $tab_class = $req_prep->fetchAll();
 
+
             if (empty($tab_class))
                 return false;
             return $tab_class[0];

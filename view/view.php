@@ -23,12 +23,21 @@
             </li>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">
+            <?php if (Session::is_connected()){ ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="./index.php?controller=clients&action=read">Profil</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./index.php?controller=clients&action=deconnect">Déconnexion</span></a>
+                </li>
+            <?php }else{ ?>
             <li class="nav-item">
                 <a class="nav-link" href="./index.php?controller=clients&action=connect">Connexion</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="./index.php?controller=clients&action=create">Inscription</span></a>
             </li>
+            <?php } ?>
         </ul>
     </div>
 </nav>

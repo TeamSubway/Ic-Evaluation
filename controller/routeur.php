@@ -22,6 +22,7 @@ $controller_class = 'Controller' . ucfirst($controller);
 
 if(class_exists($controller_class)){
     $allAction = get_class_methods($controller_class);
+
     if(in_array($action, $allAction)){
         $controller_class::$action();
     }else{
