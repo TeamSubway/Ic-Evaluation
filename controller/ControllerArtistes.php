@@ -25,6 +25,7 @@ public static function readAll()
             $art = ModelArtistes::select($_GET['id']);
 
             if($art != null){
+                $alb_list = ModelAlbums::GetAlbumsFromArtisteId($art->get('art_id'));
                 $pagetitle = $art->get('art_nom');
             }
             else{

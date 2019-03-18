@@ -31,4 +31,30 @@ class ModelAlbums extends Model{
         }
     }
 
+    public static function GetAlbumsFromArtisteId($art_id){
+
+        $sql = "SELECT * FROM albums WHERE alb_art=:art_id";
+        try {
+            $rep = Model::$pdo->prepare($sql);
+            $values = array(
+                'art_id' => $art_id
+            );
+            $rep->execute($values);
+            $rep->setFetchMode(PDO::FETCH_CLASS, 'ModelAlbums');
+            $tab = $rep->fetchAll();
+            if (!empty($tab)) {
+                return $tab;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            if (Conf::getDebug()) {
+                echo $e->getMessage();
+            } else {
+                return 'Une erreur est survenue.';
+            }
+            die();
+        }
+    }
+
 }

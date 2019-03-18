@@ -19,6 +19,7 @@ class ControllerAlbums {
         {
             $alb = ModelAlbums::select($_GET['id']);
             if($alb != null){
+                $art = ModelArtistes::select($alb->get('alb_art'));
                 $pagetitle = $alb->get('alb_nom');
             }
             else{
