@@ -48,6 +48,7 @@ class ControllerClients {
                     $_SESSION['dateInscription'] = $client->get('cli_ins');
                     $_SESSION['dateConnexion'] = $client->get('cli_cx');
                     $view = 'detail';
+                    $success = 'Connexion réussie !';
                     $pagetitle = "Profil de $login";
                     require_once File::build_path(array("view","view.php"));
                 } else {
@@ -65,6 +66,7 @@ class ControllerClients {
                 require_once File::build_path(array("view","view.php"));
             }
         } else {
+            $login = '';
             $error = "Aucune donnée entrée !";
             $view = 'connect';
             $pagetitle = 'Erreur de connexion';
@@ -78,6 +80,7 @@ class ControllerClients {
         unset($_SESSION['mail']);
         unset($_SESSION['dateInscription']);
         unset($_SESSION['dateConnexion']);
+        $success = 'Déconnexion réussie !';
         $pagetitle = 'Connexion';
         $view = 'connect';
         require_once File::build_path(array("view", "view.php"));
@@ -96,27 +99,49 @@ class ControllerClients {
     }
 
     public static function created() {
+        // Verification variable existe
         if(isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['pwd'])) {
+            // Vérification varibale vide
             if (!empty($_POST['login']) && !empty($_POST['mail']) && !empty($_POST['pwd'])){
+                // Vérification format mail
                 if (filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)) {
-                    $data = array(
-                        'id' => null,
-                        'login' => $_POST['login'],
-                        'mail' => $_POST['mail'],
-                        'dateIns' => date('Y-m-d'),
-                        'dateCx' => null,
-                        'pwd' => Security::chiffrer($_POST['pwd']),
-                        'tknIns' => Security::generateRandomHex(),
-                        'tknCx' => ''
-                    );
-                    ModelClients::save($data);
-                    $message = "Bonjour et bienvenu(e) sur notre site ".$data['login'].
-                        ", veuillez activez votre compte à l'adresse ci-jointe :
-                        http:/" . Conf::getLink() . "/index.php?controller=clients&action=validate&login=" . $data['login']."&tknIns=".$data['tknIns'];
-                    mail($data['mail'], 'Confirmation d\'inscription', $message);
-                    $view = 'connect';
-                    $pagetitle = 'Connexion';
-                    require_once File::build_path(array("view","view.php"));
+                    //  Blacklist login
+                    if(!ModelClients::checkLogin($_POST['login'])) {
+                        $data = array(
+                            'id' => null,
+                            'login' => $_POST['login'],
+                            'mail' => $_POST['mail'],
+                            'dateIns' => date('Y-m-d'),
+                            'dateCx' => null,
+                            'pwd' => Security::chiffrer($_POST['pwd']),
+                            'tknIns' => Security::generateRandomHex(),
+                            'tknCx' => ''
+                        );
+                        // Enregistrement BDD client
+                        ModelClients::save($data);
+
+                        // Mail de confirmation d'inscription
+                        $message = "Bonjour et bienvenu(e) sur notre site " . $data['login'] .
+                            ", veuillez activez votre compte à l'adresse ci-jointe :
+                        http:/" . Conf::getLink() . "/index.php?controller=clients&action=validate&login=" . $data['login'] . "&tknIns=" . $data['tknIns'];
+                        mail($data['mail'], 'Confirmation d\'inscription', $message);
+
+                        $view = 'connect';
+                        $pagetitle = 'Connexion';
+                        $success = 'Inscription réussie ! Un email vient de vous être envoyé pour confirmer l\'inscription';
+                        require_once File::build_path(array("view", "view.php"));
+                    }
+                    else {
+                        $login = $_POST['login'];
+                        $mail = $_POST['mail'];
+                        $pwd = '';
+
+                        $action = 'created';
+                        $error = 'Login non conforme';
+                        $view = 'update';
+                        $pagetitle = 'Inscription';
+                        require_once File::build_path(array("view","view.php"));
+                    }
                 } else {
                     $login = $_POST['login'];
                     $mail = $_POST['mail'];
@@ -125,7 +150,7 @@ class ControllerClients {
                     $action = 'created';
                     $error = 'Email incorrect';
                     $view = 'update';
-                    $pagetitle = 'Inscrition';
+                    $pagetitle = 'Inscription';
                     require_once File::build_path(array("view","view.php"));
                 }
             }else{
@@ -136,23 +161,29 @@ class ControllerClients {
                 $action = 'created';
                 $error = 'Données manquantes';
                 $view = 'update';
-                $pagetitle = 'Inscrition';
+                $pagetitle = 'Inscription';
                 require_once File::build_path(array("view","view.php"));
             }
         } else {
-            $login = $_POST['login'];
-            $mail = $_POST['mail'];
+            if(isset($_POST['login']))
+                $login = $_POST['login'];
+            else
+                $login = '';
+
+            if(isset($_POST['mail']))
+                $mail = $_POST['mail'];
+            else
+                $mail = '';
+
             $pwd = '';
 
             $action = 'created';
             $error = 'Données manquantes';
             $view = 'update';
-            $pagetitle = 'Inscrition';
+            $pagetitle = 'Inscription';
             require_once File::build_path(array("view","view.php"));
         }
     }
-
-
 
     public static function update() {
         $view = 'connect';
@@ -176,10 +207,12 @@ class ControllerClients {
         $view = 'connect';
         $pagetitle = 'Connexion';
         $login = '';
+        // Vérification connecté
         if (Session::is_connected()) {
             $login = $_SESSION['login'];
             $client = ModelClients::select($login);
 
+            // Si variable vide on garde l'ancienne
             $email = $client->get('cli_email');
             if(isset($_POST['mail']) &&  !empty($_POST['mail']) && filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL))
                 $email = $_POST['mail'];
@@ -194,9 +227,12 @@ class ControllerClients {
                 'cli_email' => $email,
                 'cli_pwd' => $pwd,
             );
+            // Mise a jour BDD du client
             $client->update($data);
 
             $_SESSION['mail'] = $email;
+
+            $success = 'Modification réussie !';
 
             $view = 'detail';
             $pagetitle = 'Profil';
@@ -213,11 +249,11 @@ class ControllerClients {
                     $mail = $client->get('cli_email');
                     $tknIns = $_GET['tknIns'];
                     $tab = ModelClients::checkTokenIns($login, $tknIns);
-                    // S'il y a concordence des données, alors on met le nonce à null
                     if ($tab) {
                         $data['cli_login'] = $login;
                         $data['cli_tknIns'] = null;
                         $client->update($data);
+                        $success = 'Inscription validé ! Vous pouvez maintenant vous connectez !';
                         $view = 'connect';
                         $pagetitle = 'Connexion';
                         require_once File::build_path(array("view","view.php"));

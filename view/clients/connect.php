@@ -4,10 +4,19 @@ if(!isset($login))
     $login = '';
 if(!isset($pwd))
     $pwd = '';
+if(isset($error) && !empty($error)){
 ?>
+<div class="alert alert-danger" role="alert">
+    <?=$error?>
+</div>
+<?php }
 
+if(isset($success) && !empty($success)){?>
+<div class="alert alert-success" role="alert">
+    <?=$success?>
+</div>
+<?php } ?>
 <form class="form-signin text-center" method="post" action="./index.php?controller=clients&action=connected">
-    <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
     <label for="login" class="sr-only">Login</label>
     <input type="text" name="login" value="<?=$login?>" id="login" class="form-control" placeholder="Login" required autofocus>

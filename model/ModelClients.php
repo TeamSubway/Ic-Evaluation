@@ -113,4 +113,28 @@ class ModelClients extends Model{
             die();
         }
     }
+
+    public static function checkLogin($login){
+        $sql = "SELECT COUNT(*) FROM `blacklist` WHERE LOWER(:login) LIKE CONCAT('%', LOWER(keyword), '%')";
+        try {
+            $rep = Model::$pdo->prepare($sql);
+            $values = array(
+                'login' => $login
+            );
+            $rep->execute($values);
+            $tab = $rep->fetch();
+            if (!empty($tab)) {
+                return $tab[0] > 0;
+            } else {
+                return false;
+            }
+        }catch (PDOException $e){
+            if (Conf::getDebug()) {
+                echo $e->getMessage();
+            } else {
+                return 'Une erreur est survenue.';
+            }
+            die();
+        }
+    }
 }

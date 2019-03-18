@@ -4,10 +4,19 @@ if(!isset($login))
     $login = '';
 if(!isset($mail))
     $mail = '';
-?>
+if(isset($error) && !empty($error)){
+    ?>
+    <div class="alert alert-danger" role="alert">
+        <?=$error?>
+    </div>
+<?php }
+if(isset($success) && !empty($success)){?>
+    <div class="alert alert-success" role="alert">
+        <?=$success?>
+    </div>
+<?php } ?>
 
 <form class="form-signin text-center" method="post" action="./index.php?controller=clients&action=<?=$action?>">
-    <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
     <?php
     if($action == 'created'){ ?>
