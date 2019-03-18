@@ -18,8 +18,11 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="">Home</span></a>
+            <li class="nav-item <?php if(static::$object == "albums") {?> active <?php } ?>">
+                <a class="nav-link" href="./index.php?controller=albums&action=readAll">Albums</span></a>
+            </li>
+            <li class="nav-item <?php if(static::$object == "artistes") {?> active <?php } ?>">
+                <a class="nav-link" href="./index.php?controller=artistes&action=readAll">Artistes</span></a>
             </li>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">
